@@ -1,25 +1,40 @@
-const API_BASE = 'http://localhost:8080/api/user';
+import axios from "axios";
+
+const API_BASE = "http://localhost:8080/api/user";
 
 const getUserById = async (id) => {
     try {
-        const response = await fetch(`${API_BASE}/${id}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        console.log(response);
-        const data = await response.json(); // Chuyển đổi JSON từ backend
-        console.log(data); // Kiểm tra dữ liệu nhận được
-        return data;
+        const response = await axios.get(`${API_BASE}/${id}`, {
+            withCredentials: true,
+        });
+        return response.data;
     } catch (error) {
         console.error("Error fetching user:", error);
         return null;
     }
 };
 
-
 const getAllUsers = async () => {
-    const response = await fetch(`${API_BASE}/all`);
-    return response.json();
+    try {
+        const response = await axios.get(`${API_BASE}/all`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all users:", error);
+        return [];
+    }
 };
 
-export default { getUserById, getAllUsers };
+const login = async (email, password) => {
+    try {
+        const response = await axios.post(
+            `${API_BASE}/login`,
+            { email, password },
+            { withCredentials: true }
+        );
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : { success: false, message: "Lỗi không xác định" };
+    }
+};
+
+export default { getUserById, getAllUsers, login };

@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background: #fefefe;
   color: #333;
+  background: linear-gradient(to bottom, white, #D2042D);
 }
 
 html {

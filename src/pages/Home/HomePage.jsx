@@ -15,7 +15,7 @@ const HomePage = () => {
             <nav className="navbar">
                 <ul>
                     <li><a href="/public">Home</a></li>
-                    <li><a href="/api/">Courses</a></li>
+                    <li><a href="/courses">Courses</a></li>
                     <li><a href="#plan">Plan</a></li>
                     <li><a href="/login">Login</a></li>
                     <li><a href="#register">Register</a></li>

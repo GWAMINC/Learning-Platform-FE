@@ -36,5 +36,20 @@ const login = async (email, password) => {
         throw error.response ? error.response.data : { success: false, message: "Lỗi không xác định" };
     }
 };
+const register = async(username,email,password,role)=>{
+    try{
+        const response = await axios.post(
+            `${API_BASE}/register`,
+            { username,email, password,role },
+            { withCredentials: true }
+        );
+        console.log({ username, email, password, role });
 
-export default { getUserById, getAllUsers, login };
+        return response.data;
+    }
+    catch(error){
+        throw error.response ? error.response.data : { success: false, message: "Lỗi không xác định" };
+    }
+}
+
+export default { getUserById, getAllUsers, login,register };

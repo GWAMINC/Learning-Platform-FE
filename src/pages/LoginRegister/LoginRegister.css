@@ -131,3 +131,16 @@ button:hover {
     top: 15%;
     right: -5%;
 }
+.forgotpassword{
+    color: #573b8a;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}.login-message{
+    color: red;
+    position: fixed;
+   top: 10%;
+   right: 10%;
+}

@@ -44,6 +44,19 @@ const LoginRegister = () => {
         setMessageregister("⚠ Lỗi đăng ký! Vui lòng thử lại. Lỗi: " + error.message);
     }
   };
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await userService.forgotPassword(email);
+      if (data.success) {
+        setMessage("✅ Đã gửi email khôi phục mật khẩu!");
+      } else {
+        setMessage("❌ Email không tồn tại!");
+      }
+    } catch (error) {
+      setMessage("⚠ Lỗi! Vui lòng thử lại. Lỗi: " + error.message);
+    }
+  }
 
   return (
     <div className="login-container">
@@ -114,6 +127,7 @@ const LoginRegister = () => {
             />
             <button type="submit">Login</button>
           </form>
+          <div className="forgotpassword" onClick={handleForgotPassword}>Forgot password</div>
         </div>
       </div>
     </div>

@@ -1,7 +1,14 @@
 /* Global Layout */
 .admin-container {
+    position: relative;
+    width: 100vw; 
+    height: 100vh; 
+    overflow-x: hidden; 
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding-top: 6rem; 
     background: linear-gradient(-45deg, #4A90E2, #8E44AD 5%, white 10%);
 }
 

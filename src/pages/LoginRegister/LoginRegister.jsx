@@ -21,6 +21,10 @@ const LoginRegister = () => {
 
       if (data.success) {
         setMessage("✅ Đăng nhập thành công!");
+        if (localStorage.getItem("username")) {
+          localStorage.removeItem("username");
+        }
+        localStorage.setItem("username", data.username);
         setTimeout(() => navigate("/dashboard"), 1000);
       } else {
         setMessage("❌ Đăng nhập thất bại! Kiểm tra lại email hoặc mật khẩu.");

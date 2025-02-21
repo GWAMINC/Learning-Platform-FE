@@ -16,7 +16,7 @@ const getUserById = async (id) => {
 
 const getAllUsers = async () => {
     try {
-        const response = await axios.get(`${API_BASE}/all`);
+        const response = await axios.get(`${API_BASE}/all`, { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error("Error fetching all users:", error);

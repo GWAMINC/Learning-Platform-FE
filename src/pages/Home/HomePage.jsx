@@ -110,7 +110,7 @@ const HomePage = () => {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <a href={`#${item.toLowerCase()}`} className="nav-link">
+                                <a href={`${item.toLowerCase()}`} className="nav-link">
                                     {item}
                                     <span className="link-underline"></span>
                                 </a>

@@ -6,6 +6,8 @@ import CoursesPage from "../pages/Courses/CoursesPage.jsx";
 import CourseDetailPage from "../pages/Courses/CourseDetailPage.jsx";
 import AdminPage from "../pages/Admin/AdminPage.jsx";
 import List from "../pages/Admin/Courses/List.jsx";
+import ChatPage from "../pages/Chat/ChatPage.jsx";
+import ChatRoomPage from "../pages/ChatRoom/ChatRoomPage.jsx";
 
 const AppRoutes = () => {
     return (
@@ -18,6 +20,8 @@ const AppRoutes = () => {
             <Route path="/admin" element={<AdminPage />}>
                 <Route path="courses" element={<List />} />
             </Route>
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/chatroom/:chatRoomId" element={<ChatRoomPage />} />
         </Routes>
     );
 };

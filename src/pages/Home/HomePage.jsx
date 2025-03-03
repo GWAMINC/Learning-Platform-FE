@@ -91,7 +91,7 @@ const HomePage = () => {
                             <path id="tanuki-right-cheek" className="tanuki-shape" fill="#7d7d7d" d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"></path>
                             <path id="tanuki-left-cheek" className="tanuki-shape" fill="#7d7d7d" d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"></path>
                         </svg>
-                        <div className="brand-name">EduPlatform</div>
+                        <div className="brand-name">Foxtle</div>
                     </div>
 
                     {/* Mobile menu toggle */}

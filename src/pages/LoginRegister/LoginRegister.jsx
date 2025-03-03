@@ -7,22 +7,39 @@ const LoginRegister = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // Thêm state mới cho xác nhận mật khẩu
   const [message, setMessage] = useState("");
   const [messageregister, setMessageregister] = useState("");
   const [role, setRole] = useState("student");
   const [isLoading, setIsLoading] = useState(false);
   const [formMode, setFormMode] = useState("login"); // "login" or "register"
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // State cho việc hiển thị xác nhận mật khẩu
+  const [rememberMe, setRememberMe] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
     // Reset messages when switching tabs
     setMessage("");
     setMessageregister("");
+    
+    // Kiểm tra xem có thông tin đăng nhập đã lưu không
+    const savedEmail = localStorage.getItem("savedEmail");
+    const savedPassword = localStorage.getItem("savedPassword");
+    
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
   }, [formMode]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
   const handleLogin = async (e) => {
@@ -39,6 +56,16 @@ const LoginRegister = () => {
           localStorage.removeItem("username");
         }
         localStorage.setItem("username", data.username);
+        
+        // Lưu thông tin đăng nhập nếu người dùng đã chọn "Ghi nhớ đăng nhập"
+        if (rememberMe) {
+          localStorage.setItem("savedEmail", email);
+          localStorage.setItem("savedPassword", password);
+        } else {
+          localStorage.removeItem("savedEmail");
+          localStorage.removeItem("savedPassword");
+        }
+        
         setTimeout(() => navigate("/dashboard"), 1000);
       } else {
         setMessage("❌ Đăng nhập thất bại! Kiểm tra lại email hoặc mật khẩu.");
@@ -53,6 +80,13 @@ const LoginRegister = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setMessageregister("");
+    
+    // Kiểm tra xác nhận mật khẩu
+    if (password !== confirmPassword) {
+      setMessageregister("❌ Mật khẩu xác nhận không khớp!");
+      return;
+    }
+    
     setIsLoading(true);
     
     try {
@@ -102,6 +136,10 @@ const LoginRegister = () => {
     } else {
       document.getElementById("chk").checked = false;
     }
+  };
+
+  const handleRememberMeChange = (e) => {
+    setRememberMe(e.target.checked);
   };
 
   return (
@@ -173,6 +211,23 @@ const LoginRegister = () => {
                 {passwordVisible ? "🙈" : "👁️"}
               </span>
             </div>
+
+            <div className="input-group password-group">
+              <input
+                type={confirmPasswordVisible ? "text" : "password"}
+                name="confirm-pswd"
+                placeholder="Xác nhận mật khẩu"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <span className="input-icon">🔒</span>
+              <span 
+                className="password-toggle" 
+                onClick={toggleConfirmPasswordVisibility}>
+                {confirmPasswordVisible ? "🙈" : "👁️"}
+              </span>
+            </div>
             
             <div className="input-group select-group">
               <select
@@ -236,6 +291,19 @@ const LoginRegister = () => {
                 onClick={togglePasswordVisibility}>
                 {passwordVisible ? "🙈" : "👁️"}
               </span>
+            </div>
+            
+            {/* Thêm checkbox "Ghi nhớ đăng nhập" */}
+            <div className="remember-me-container">
+              <label className="remember-me">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={handleRememberMeChange}
+                />
+                <span className="checkmark"></span>
+                Ghi nhớ đăng nhập
+              </label>
             </div>
             
             <button 

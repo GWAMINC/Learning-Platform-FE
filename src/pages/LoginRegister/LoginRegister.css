@@ -51,17 +51,18 @@
     20%, 40%, 60%, 80% {transform: translateX(5px);}
 }
 
+
 /* Main Styles */
 .login-container {
     position: relative;
-    width: 100%;
+    width: 100vw;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #302b63);
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #030303);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     padding: 20px;
@@ -72,7 +73,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, transparent 20%, #24243e 80%);
+    background: radial-gradient(circle, transparent 40%, #24243f 80%, #f1f1f1 60%,#302b63 80%,#24243e 100%);
     background-size: 20px 20px;
     opacity: 0.3;
 }
@@ -227,6 +228,74 @@
     color: #573b8a;
     font-size: 16px;
     z-index: 2;
+}
+
+/* Remember Me Checkbox Styles */
+.remember-me-container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #573b8a;
+    user-select: none;
+}
+
+.remember-me input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    transition: all 0.3s;
+    border: 1px solid #ddd;
+}
+
+.remember-me:hover input ~ .checkmark {
+    background-color: #f0f0f0;
+    border-color: #573b8a;
+}
+
+.remember-me input:checked ~ .checkmark {
+    background-color: #573b8a;
+    border-color: #573b8a;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.remember-me input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.remember-me .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 /* Button Styles */
@@ -393,5 +462,9 @@
     
     .input-group input, .input-group select {
         padding: 10px 10px 10px 40px;
+    }
+    
+    .remember-me {
+        font-size: 13px;
     }
 }

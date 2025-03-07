@@ -7,30 +7,35 @@ const CheckoutPage = () => {
 
     const handlePayment = async () => {
         try {
-            const checkoutLink = await createOrder(orderData);
-
-            // Mở PayPal trong popup (width: 500px, height: 700px)
-            const paypalWindow = window.open(
-                checkoutLink,
-                'paypalCheckout',
-                'width=500,height=700,left=100,top=100'
-            );
-
-            // Kiểm tra nếu popup bị chặn
-            if (!paypalWindow) {
-                alert('Trình duyệt đã chặn popup! Vui lòng cho phép popup để tiếp tục.');
+            const formattedOrderData = {
+                ...orderData,
+                paymentMethodId: Number(orderData.paymentMethodId) // Chuyển thành number
+            };
+            const response = await createOrder(formattedOrderData);
+            console.log(response)
+            if (formattedOrderData.paymentMethodId === 2) {
+                const paypalWindow = window.open(
+                    response,
+                    'paypalCheckout',
+                    'width=500,height=700,left=100,top=100'
+                );
+                if (!paypalWindow) {
+                    alert('Trình duyệt đã chặn popup! Vui lòng cho phép popup để tiếp tục.');
+                }
+            } else {
+                alert('Đặt hàng thành công!');
             }
         } catch (error) {
-            alert('Lỗi khi tạo đơn hàng');
+            alert('Lỗi khi tạo đơn hàng: ' + error.message);
         }
     };
 
     return (
         <div>
-            <h2>Xác nhận đơn hàng</h2>
+            <h2>Hoàn tất đặt hàng</h2>
             <p>Địa chỉ giao hàng: {orderData.shippingAddress}</p>
             <p>Tổng tiền: {orderData.totalAmount} USD</p>
-            <button onClick={handlePayment}>Thanh toán qua PayPal</button>
+            <button onClick={handlePayment}>Thanh toán</button>
         </div>
     );
 };

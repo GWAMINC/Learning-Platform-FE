@@ -8,6 +8,10 @@ import AdminPage from "../pages/Admin/AdminPage.jsx";
 import List from "../pages/Admin/Courses/List.jsx";
 import ChatPage from "../pages/Chat/ChatPage.jsx";
 import ChatRoomPage from "../pages/ChatRoom/ChatRoomPage.jsx";
+import CartPage from "../pages/Cart/CartPage.jsx";
+import CheckoutPage from "../pages/Cart/CheckoutPage.jsx";
+import PaymentSuccessPage from "../pages/Cart/PaymentSuccessPage.jsx";
+import PaymentCancelPage from "../pages/Cart/PaymentCancelPage.jsx";
 
 const AppRoutes = () => {
     return (
@@ -22,6 +26,10 @@ const AppRoutes = () => {
             </Route>
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/chatroom/:chatRoomId" element={<ChatRoomPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
+            <Route path="/payment/cancel" element={<PaymentCancelPage />} />
         </Routes>
     );
 };

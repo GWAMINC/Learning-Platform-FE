@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaHeart, FaShoppingCart, FaBell, FaStar, FaFilter, FaClock, FaBookOpen, FaChalkboardTeacher, FaRegBookmark, FaBookmark, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "./CoursesPage.css";
+import {Link} from "react-router-dom";
 
 const categories = [
     "Web Development", "Data Science", "Machine Learning", "AI", "Mobile Development",
@@ -176,21 +177,23 @@ const CoursesPage = () => {
                             {savedCoursesCount}
                         </motion.span>
                     </motion.div>
-                    <motion.div 
-                        className="icon-wrapper"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <FaShoppingCart className="icon" />
-                        <motion.span 
-                            className="badge"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.4 }}
+                    <Link to="/cart">
+                        <motion.div
+                            className="icon-wrapper"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            {cartItemsCount}
-                        </motion.span>
-                    </motion.div>
+                            <FaShoppingCart className="icon" />
+                            <motion.span
+                                className="badge"
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ delay: 0.4 }}
+                            >
+                                {cartItemsCount}
+                            </motion.span>
+                        </motion.div>
+                    </Link>
                     <motion.div 
                         className="icon-wrapper"
                         whileHover={{ scale: 1.1 }}

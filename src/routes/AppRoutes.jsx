@@ -12,6 +12,7 @@ import CartPage from "../pages/Cart/CartPage.jsx";
 import CheckoutPage from "../pages/Cart/CheckoutPage.jsx";
 import PaymentSuccessPage from "../pages/Cart/PaymentSuccessPage.jsx";
 import PaymentCancelPage from "../pages/Cart/PaymentCancelPage.jsx";
+import OrderPage from "../pages/Order/OrderPage.jsx";
 
 const AppRoutes = () => {
     return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/payment/success" element={<PaymentSuccessPage />} />
             <Route path="/payment/cancel" element={<PaymentCancelPage />} />
+            <Route path="/order/confirm" element={<OrderPage/>} />
         </Routes>
     );
 };

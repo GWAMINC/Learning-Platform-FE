@@ -24,6 +24,12 @@ const AdminPage = () => {
                             {isOpen && <span>Course</span>}
                         </div>
                     </div>
+                    <div className="menu-item" onClick={() => navigate("/admin/categories")}>
+                        <div className="menu-title">
+                            <FaBook />
+                            {isOpen && <span>Categories</span>}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Bottom Menu */}

@@ -13,6 +13,7 @@ import CheckoutPage from "../pages/Cart/CheckoutPage.jsx";
 import PaymentSuccessPage from "../pages/Cart/PaymentSuccessPage.jsx";
 import PaymentCancelPage from "../pages/Cart/PaymentCancelPage.jsx";
 import OrderPage from "../pages/Order/OrderPage.jsx";
+import CategoriesList from "../pages/Admin/Category/CategoriesList.jsx";
 
 const AppRoutes = () => {
     return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
             <Route path="/courseDetail" element={<CourseDetailPage />} />
             <Route path="/admin" element={<AdminPage />}>
                 <Route path="courses" element={<List />} />
+                <Route path="categories" element={<CategoriesList />} />
             </Route>
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/chatroom/:chatRoomId" element={<ChatRoomPage />} />

@@ -239,7 +239,7 @@ button:focus, input:focus {
     margin-right: 8px;
 }
 
-/* User List */
+/* User CategoriesList */
 .user-list {
     display: flex;
     flex-direction: column;

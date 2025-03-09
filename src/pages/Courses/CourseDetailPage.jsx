@@ -80,7 +80,7 @@ const CourseDetailPage = () => {
                     "Cài đặt môi trường phát triển tối ưu",
                     "JSX và cú pháp cơ bản",
                     "Virtual DOM và cách React hoạt động",
-                    "Dự án #1: Ứng dụng To-do List đơn giản"
+                    "Dự án #1: Ứng dụng To-do CategoriesList đơn giản"
                 ]
             },
             {

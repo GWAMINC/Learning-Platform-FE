@@ -3,11 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaHeart, FaShoppingCart, FaBell, FaStar, FaFilter, FaClock, FaBookOpen, FaChalkboardTeacher, FaRegBookmark, FaBookmark, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "./CoursesPage.css";
 import {Link} from "react-router-dom";
-
-const categories = [
-    "Web Development", "Data Science", "Machine Learning", "AI", "Mobile Development",
-    "Game Development", "Cyber Security", "Cloud Computing", "Blockchain", "UI/UX Design"
-];
+import courseService from "../../services/courseService.js";
 
 const levels = ["Beginner", "Intermediate", "Advanced", "All Levels"];
 const durations = ["0-5 hours", "5-10 hours", "10-20 hours", "20+ hours"];
@@ -15,18 +11,18 @@ const ratings = ["4.5 & up", "4.0 & up", "3.5 & up", "3.0 & up"];
 
 const courses = Array.from({ length: 50 }, (_, i) => ({
     id: i + 1,
-    title: `${categories[Math.floor(Math.random() * categories.length)]} ${i % 3 === 0 ? 'Mastery' : i % 3 === 1 ? 'Complete Guide' : 'Bootcamp'} ${i + 1}`,
+    // title: `${categories[Math.floor(Math.random() * categories.length)]} ${i % 3 === 0 ? 'Mastery' : i % 3 === 1 ? 'Complete Guide' : 'Bootcamp'} ${i + 1}`,
     instructor: `Professor ${String.fromCharCode(65 + (i % 26))}. ${String.fromCharCode(65 + ((i + 5) % 26))}`,
     rating: (Math.floor(Math.random() * 15) + 35) / 10, // Rating từ 3.5 đến 5.0 sao
     comments: Math.floor(Math.random() * 500) + 50,
     students: Math.floor(Math.random() * 10000) + 1000,
     price: (Math.floor(Math.random() * 80) + 20) * 10000, // Giá từ 200,000 đến 1,000,000 VND
     originalPrice: (Math.floor(Math.random() * 100) + 50) * 10000,
-    thumbnail: `https://source.unsplash.com/400x300/?education,${categories[Math.floor(Math.random() * categories.length)]}&sig=${i}`,
+    // thumbnail: `https://source.unsplash.com/400x300/?education,${categories[Math.floor(Math.random() * categories.length)]}&sig=${i}`,
     duration: Math.floor(Math.random() * 20) + 10, // Thời lượng từ 10 đến 30 giờ
     lessons: Math.floor(Math.random() * 50) + 20, // Số bài học từ 20 đến 70
     level: levels[Math.floor(Math.random() * levels.length)],
-    category: categories[Math.floor(Math.random() * categories.length)],
+    // category: categories[Math.floor(Math.random() * categories.length)],
     lastUpdated: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
     isSaved: Math.random() > 0.7
 }));
@@ -50,6 +46,16 @@ const CoursesPage = () => {
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const [sortOption, setSortOption] = useState("popular");
     const [viewMode, setViewMode] = useState("grid");
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const categoriesData = await courseService.getAllCategories();
+            setCategories(categoriesData.categories);
+        };
+        fetchCategories();
+    }, []);
 
     // Simulating loading state
     useEffect(() => {
@@ -379,13 +385,13 @@ const CoursesPage = () => {
         </motion.button>
         {categories.map(category => (
             <motion.button 
-                key={category}
-                className={`category-btn ${selectedCategory === category ? "active" : ""}`}
+                key={category.id}
+                className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => setSelectedCategory(category.id)}
             >
-                {category}
+                {category.name}
             </motion.button>
         ))}
     </div>

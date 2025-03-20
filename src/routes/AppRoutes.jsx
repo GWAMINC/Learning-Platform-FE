@@ -14,6 +14,7 @@ import PaymentSuccessPage from "../pages/Cart/PaymentSuccessPage.jsx";
 import PaymentCancelPage from "../pages/Cart/PaymentCancelPage.jsx";
 import OrderPage from "../pages/Order/OrderPage.jsx";
 import CategoriesList from "../pages/Admin/Category/CategoriesList.jsx";
+import CreateCoursePage from "../pages/Courses/CreateCoursePage.jsx";
 
 const AppRoutes = () => {
     return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
             <Route path="/login" element={<LoginRegister />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courseDetail" element={<CourseDetailPage />} />
+            <Route path="/create-course" element={<CreateCoursePage />} />
             <Route path="/admin" element={<AdminPage />}>
                 <Route path="courses" element={<List />} />
                 <Route path="categories" element={<CategoriesList />} />

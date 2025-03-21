@@ -2,6 +2,35 @@ import axios from "axios";
 
 const API_BASE = "http://localhost:8080/api/course";
 
+const getAllCourses = async () => {
+    try {
+        const response = await axios.get(`${API_BASE}/list`, { withCredentials: true });
+        response.data.forEach(course => {
+            course.price = JSON.parse(course.price);
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all courses:", error);
+        return [];
+    }
+}
+
+
+const createCourse = async (title, description, categories, price, currency) => {
+    try {
+        const response = await axios.post(`${API_BASE}/create`, {
+            title: title,
+            description: description,
+            categories: categories,
+            price: price,
+            currency: currency
+        }, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating course:", error);
+        throw error;
+    }
+}
 const getAllCategories = async () => {
     try {
         const response = await axios.get(`${API_BASE}/category/all`, { withCredentials: true });
@@ -53,4 +82,4 @@ const deleteCategory = async (id) => {
 };
 
 
-export default { getAllCategories, addCategory, editCategory, deleteCategory };
+export default {getAllCourses, createCourse, getAllCategories, addCategory, editCategory, deleteCategory };

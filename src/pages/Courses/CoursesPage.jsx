@@ -9,25 +9,26 @@ const levels = ["Beginner", "Intermediate", "Advanced", "All Levels"];
 const durations = ["0-5 hours", "5-10 hours", "10-20 hours", "20+ hours"];
 const ratings = ["4.5 & up", "4.0 & up", "3.5 & up", "3.0 & up"];
 
-const courses = Array.from({ length: 50 }, (_, i) => ({
-    id: i + 1,
-    // title: `${categories[Math.floor(Math.random() * categories.length)]} ${i % 3 === 0 ? 'Mastery' : i % 3 === 1 ? 'Complete Guide' : 'Bootcamp'} ${i + 1}`,
-    instructor: `Professor ${String.fromCharCode(65 + (i % 26))}. ${String.fromCharCode(65 + ((i + 5) % 26))}`,
-    rating: (Math.floor(Math.random() * 15) + 35) / 10, // Rating từ 3.5 đến 5.0 sao
-    comments: Math.floor(Math.random() * 500) + 50,
-    students: Math.floor(Math.random() * 10000) + 1000,
-    price: (Math.floor(Math.random() * 80) + 20) * 10000, // Giá từ 200,000 đến 1,000,000 VND
-    originalPrice: (Math.floor(Math.random() * 100) + 50) * 10000,
-    // thumbnail: `https://source.unsplash.com/400x300/?education,${categories[Math.floor(Math.random() * categories.length)]}&sig=${i}`,
-    duration: Math.floor(Math.random() * 20) + 10, // Thời lượng từ 10 đến 30 giờ
-    lessons: Math.floor(Math.random() * 50) + 20, // Số bài học từ 20 đến 70
-    level: levels[Math.floor(Math.random() * levels.length)],
-    // category: categories[Math.floor(Math.random() * categories.length)],
-    lastUpdated: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
-    isSaved: Math.random() > 0.7
-}));
+// const courses = Array.from({ length: 50 }, (_, i) => ({
+//     id: i + 1,
+//     // title: `${categories[Math.floor(Math.random() * categories.length)]} ${i % 3 === 0 ? 'Mastery' : i % 3 === 1 ? 'Complete Guide' : 'Bootcamp'} ${i + 1}`,
+//     instructor: `Professor ${String.fromCharCode(65 + (i % 26))}. ${String.fromCharCode(65 + ((i + 5) % 26))}`,
+//     rating: (Math.floor(Math.random() * 15) + 35) / 10, // Rating từ 3.5 đến 5.0 sao
+//     comments: Math.floor(Math.random() * 500) + 50,
+//     students: Math.floor(Math.random() * 10000) + 1000,
+//     price: (Math.floor(Math.random() * 80) + 20) * 10000, // Giá từ 200,000 đến 1,000,000 VND
+//     originalPrice: (Math.floor(Math.random() * 100) + 50) * 10000,
+//     // thumbnail: `https://source.unsplash.com/400x300/?education,${categories[Math.floor(Math.random() * categories.length)]}&sig=${i}`,
+//     duration: Math.floor(Math.random() * 20) + 10, // Thời lượng từ 10 đến 30 giờ
+//     lessons: Math.floor(Math.random() * 50) + 20, // Số bài học từ 20 đến 70
+//     level: levels[Math.floor(Math.random() * levels.length)],
+//     // category: categories[Math.floor(Math.random() * categories.length)],
+//     lastUpdated: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
+//     isSaved: Math.random() > 0.7
+// }));
 
 const CoursesPage = () => {
+    const [courses, setCourses] = useState([""]);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedFilters, setSelectedFilters] = useState({
         level: "All Levels",
@@ -38,7 +39,7 @@ const CoursesPage = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [savedCourses, setSavedCourses] = useState([]);
-    const coursesPerPage = 9; // Số khóa học hiển thị trên mỗi trang
+    const coursesPerPage = 10; // Số khóa học hiển thị trên mỗi trang
     const [isLoading, setIsLoading] = useState(true);
     const [savedCoursesCount, setSavedCoursesCount] = useState(3);
     const [cartItemsCount, setCartItemsCount] = useState(2);
@@ -57,6 +58,17 @@ const CoursesPage = () => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        const fetchCourses = async () => {
+            const coursesData = await courseService.getAllCourses();
+            setCourses(coursesData);
+            console.log(coursesData);
+            setIsLoading(false);
+        };
+        fetchCourses();
+    }, []);
+
+
     // Simulating loading state
     useEffect(() => {
         setSavedCourses(courses.filter(course => course.isSaved).map(course => course.id));
@@ -70,22 +82,22 @@ const CoursesPage = () => {
 
     // Apply filters and search
     const filteredCourses = courses.filter(course => {
-        const categoryMatch = selectedCategory === "All" || course.category === selectedCategory;
+        const categoryMatch = selectedCategory === "All" || Object.values(course.categories).includes(selectedCategory);
         const levelMatch = selectedFilters.level === "All Levels" || course.level === selectedFilters.level;
-        const durationMatch = selectedFilters.duration === "Any Duration" || 
+        const durationMatch = selectedFilters.duration === "Any Duration" ||
             (selectedFilters.duration === "0-5 hours" && course.duration <= 5) ||
             (selectedFilters.duration === "5-10 hours" && course.duration > 5 && course.duration <= 10) ||
             (selectedFilters.duration === "10-20 hours" && course.duration > 10 && course.duration <= 20) ||
             (selectedFilters.duration === "20+ hours" && course.duration > 20);
-        const ratingMatch = selectedFilters.rating === "Any Rating" || 
+        const ratingMatch = selectedFilters.rating === "Any Rating" ||
             (selectedFilters.rating === "4.5 & up" && course.rating >= 4.5) ||
             (selectedFilters.rating === "4.0 & up" && course.rating >= 4.0) ||
             (selectedFilters.rating === "3.5 & up" && course.rating >= 3.5) ||
             (selectedFilters.rating === "3.0 & up" && course.rating >= 3.0);
-        const searchMatch = searchTerm === "" || 
+        const searchMatch = searchTerm === "" ||
             course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-        
+
         return categoryMatch && levelMatch && durationMatch && ratingMatch && searchMatch;
     });
 
@@ -114,7 +126,6 @@ const CoursesPage = () => {
     const indexOfLastCourse = currentPage * coursesPerPage;
     const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
     const currentCourses = sortedCourses.slice(indexOfFirstCourse, indexOfLastCourse);
-
     // Toggle saved status
     const toggleSaved = (courseId) => {
         if (savedCourses.includes(courseId)) {
@@ -462,7 +473,7 @@ const CoursesPage = () => {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
                     >
-                        <p>Hiển thị <span className="highlight">{sortedCourses.length}</span> khóa học{selectedCategory !== "All" ? ` trong ${selectedCategory}` : ""}</p>
+                        <p>Hiển thị <span className="highlight">{sortedCourses.length}</span> khóa học{selectedCategory !== "All" ? ` trong ${categories.find(cate => cate.id === selectedCategory)?.name}` : ""}</p>
                     </motion.div>
 
                     {isLoading ? (
@@ -551,28 +562,34 @@ const CoursesPage = () => {
                                                             />
                                                         ))}
                                                     </div>
-                                                    <span className="reviews-count">({course.comments})</span>
+                                                    <span className="reviews-count">({course.reviewCount})</span>
                                                 </div>
-                                                <div className="course-students">
-                                                    <span>{(course.students).toLocaleString()} học viên</span>
-                                                </div>
+                                                {/*<div className="course-students">*/}
+                                                {/*    <span>{(course.students).toLocaleString()} học viên</span>*/}
+                                                {/*</div>*/}
                                             </div>
 
                                             <div className="course-details">
-                                                <div className="detail-item">
-                                                    <FaClock className="detail-icon" />
-                                                    <span>{course.duration} giờ</span>
-                                                </div>
+                                                {/*<div className="detail-item">*/}
+                                                {/*    <FaClock className="detail-icon" />*/}
+                                                {/*    <span>{course.duration} giờ</span>*/}
+                                                {/*</div>*/}
                                                 <div className="detail-item">
                                                     <FaBookOpen className="detail-icon" />
-                                                    <span>{course.lessons} bài học</span>
+                                                    <span>{course.unitCount} bài học</span>
                                                 </div>
                                             </div>
 
                                             <div className="course-footer">
                                                 <div className="course-price">
-                                                    <div className="current-price">{course.price.toLocaleString()} VND</div>
-                                                    <div className="original-price">{course.originalPrice.toLocaleString()} VND</div>
+                                                    {course.price.discountPrice ? (
+                                                        <>
+                                                            <div className="current-price">{course.price.discountPrice} VND</div>
+                                                            <div className="original-price">{course.price.price} VND</div>
+                                                        </>
+                                                    ) : (
+                                                        <div className="current-price">{course.price.price} VND</div>
+                                                    )}
                                                 </div>
                                                 <motion.button 
                                                     className="add-to-cart-btn"

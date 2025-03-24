@@ -14,7 +14,15 @@ const getAllCourses = async () => {
         return [];
     }
 }
-
+const getCourseDetail = async (id) => {
+    try {
+        const response = await axios.get(`${API_BASE}/${id}`, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all courses:", error);
+        return [];
+    }
+}
 
 const createCourse = async (title, description, categories, price, currency) => {
     try {
@@ -82,4 +90,4 @@ const deleteCategory = async (id) => {
 };
 
 
-export default {getAllCourses, createCourse, getAllCategories, addCategory, editCategory, deleteCategory };
+export default {getAllCourses, createCourse, getAllCategories, addCategory, editCategory, deleteCategory, getCourseDetail };
